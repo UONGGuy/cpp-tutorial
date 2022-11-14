@@ -1,0 +1,20 @@
+ESCAPE SEQUENCES
+
+i.e. special meaning characters in strings
+
+COMMON
+
+\n = newline
+\t = horizontal tab
+\' = single quote
+\" = double quote
+\\ = backslash
+\? = question mark
+
+ADDITIONAL
+
+\a = makes an alert (e.g. a beep)
+\b = backspace (move cursor back one space)
+\f = formfeed (move cursor to next logical page)
+\r = carriage return (move cursor to beginning of line)
+\v = vertical tab
