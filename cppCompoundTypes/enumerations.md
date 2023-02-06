@@ -69,7 +69,7 @@ To work around this, `static_cast` can be used to convert an integer to an unsco
 
 ## Scoped enumerations (enumeration classes)
 
-These are safer, strongly typed (won't implicitly convert to integers) and strongly scoped (enumerators only plcaedd into scope region of the enumeration) versions of unscoped enumerations.
+These are safer, strongly typed (won't implicitly convert to integers) and strongly scoped (enumerators only placed into scope region of the enumeration) versions of unscoped enumerations.
 To make them, we use the `enum class` keyword.
 Everything else is the same as for an unscoped enumeration.
 Scoped enumerations act like a namespace for their enumerators and are accessed as such.
