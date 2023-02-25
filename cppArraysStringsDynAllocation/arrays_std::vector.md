@@ -67,9 +67,35 @@ To specify a vector of given length, use parenthesis initialisation:
 std::vector<int> v(5); // vector of length 5, elements all zero initialised
 ```
 
-## Compacting bools
+### Compacting bools
 
 There is an implementation for `std::vector` of type bool that compacts 8 booleans into a byte.
 Note that this doesn't change how `std::vector` is used.
 
+## std::vector capacity
 
+`std::vector` has additional properties oustide of remembering its length and dynamic resizing.
+To explore this it is important to differentiate between length and capacity.
+
+- Length: how many elements are being used in the array (use `array.size()`)
+- Capacity: how many elements were allocated in memory (use `array.capacity()`)
+
+Because resizing vectors is computationally expensive, reallocating memory is avoided where possible.
+This means that when resizing vector to be of smaller length, its capacity may not change (i.e. memory is not reallocated).
+That is, capacity is always at least as large as array length.
+However, this does not affect the range of the `std::vector` or elemnt access as these are based off vector length.
+
+## std::vector stack behaviour
+
+`std::vector` can also be used as a stack as well as a dynamic array.
+To do this, we can use three functions that match the key operations of a stack:
+
+- `push_back()`: pushes an element onto the stack
+- `back()`: returns the value of the top element on the stack
+- `pop_back()`: pops an element off the stack
+
+All the stack-based functions will resize the `std::vector` if necessary, unlike array subscripts or `at()`.
+
+We can allocate a certain amount of capacity to the vector up front with the `reserve()` function to reduce the cost of continual vector resizing.
+Extra capacity is sometimes allocated by the program itself when resizing to try an minimise the number of resize operations potentially needed.
+This additional capacity allocation is usually decided by the compiler implementer (is usually 1.5x or 2x current capacity when `std::vector::resize()` used).
