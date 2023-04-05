@@ -7,7 +7,7 @@ In particular, private members should be initialised using constructors and non-
 ## Constructors
 
 When all members of a class (or struct) are public, we can use aggregate initialisation to initialise the class (or struct) directly with list-initialisation.
-However, if there are private member variables, then this style of inidialisation does not work.
+However, if there are private member variables, then this style of initialisation does not work.
 
 Constructors are a type of class member function that are automatically called when an object of that class is created.
 They are used to initialise member variables to user-provided values or do any set-up steps required for the class to be used (e.g. open a file or database).
@@ -101,13 +101,67 @@ int main()
 
 Favour brace/list initialisation when initialising class objects.
 
+### Copy constructors
+
+A copy constructor is a special type of constructor used to create a new object that is a copy of an existing object of the same type.
+
+```cpp
+Fraction fiveThirds{ 5, 3 };
+Fraction fCopy{ fiveThirds }; // copy constructor called
+    // fCopy{ fiveThirds.m_numerator, fiveThirds.m_denominator }
+```
+
+If not explicitly provided, C++ will create a public copy constructor for you.
+By default, the created copy constructor utilises memberwise initialisation meaning each member of the copy is initialised directly from the member being copied.
+
+The syntax to create a copy constructor is similar to that of a default constructor except its parameter must be a (const) reference.
+
+```cpp
+#include <cassert>
+
+class Fraction
+{
+private: 
+    int m_numerator{};
+    int m_denominator{};
+
+public:
+    Fraction() // default constructor
+    {
+        m_numerator = 0;
+        m_denominator = 1;
+    }
+
+    Fraction(int numerator, int denominator=1)
+    {
+        assert(denominator != 0 && "Denominator is zero.");
+        m_numerator = numerator;
+        m_denominator = denominator;
+    }
+
+    Fraction(const Fraction& frac) // Copy constructor
+        : m_numerator{ frac.m_numerator } // Initialisation list (later)
+        , m_denominator{ frac.m_denominator }
+    {}
+};
+```
+
+If we want to prevent copies of our classes being made, we can make the copy constructor private.
+
+In the interests of efficiency, sometimes the compiler may choose to perform copy elision where possible meaning it omits certain copy steps for performance purposes.
+Side effects to this may be that statements in the body of the copy constructor are not executed.
+
 ### Copy initialisation
 
-Copy initialisation is also valid for class objects but it is suggested this is avoided since it may be  less efficient.
+Copy initialisation is also valid for class objects, but it is suggested this is avoided since it may be less efficient and can cause side effects with potential for elision.
+
+```cpp
+Fraction six = Fraction (6); // example of copy initialisation
+```
 
 ### Reducing constructors
 
-The previous example can be rewritten to reduce the number of constructor functions:
+It is possible to write code minimising the number of constructor functions by using default values:
 
 ```cpp
 
@@ -118,8 +172,6 @@ The previous example can be rewritten to reduce the number of constructor functi
         m_denominator = denominator;
     }
 ```
-
-This way we have a default constructor that can accept none, one or two user-provide values.
 
 ### Implicitly generated default constructor
 
@@ -179,7 +231,7 @@ int main()
 
 Classes can contain other class objects as member variables.
 When the outer class is constructed, member variables will have their default constructors called by default.
-This happens before the body of the constructor exectutes.
+This happens before the body of the constructor executes.
 
 ```cpp
 #include <iostream>
@@ -308,7 +360,7 @@ private:
 };
 ```
 
-Prior to C++11, array members could only be zero initialied via a member initialisation list.
+Prior to C++11, array members could only be zero initialised via a member initialisation list.
 
 ```cpp
 class Something

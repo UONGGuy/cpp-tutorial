@@ -50,14 +50,14 @@ struct Foo
 
 It is also possible for multiple template types to be used for struct members.
 
-### std::pair
+### Using std::pair
 
 Due to how common it is to work with pairs of data, the C++ standard library contains class template `std::pair` in the `<utility>` header.
 This works similarly to the `Pair` struct defined in the examples above and should be favoured in actual use.
 
 ### Using class templates in multiple files
 
-Class templates are typically defined in header files as well so they can be included into multiple code files.
+Class templates are typically defined in header files and can be included into multiple code files.
 
 ## Class template argument deduction (CTAD) and deduction guides
 

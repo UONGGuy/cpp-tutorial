@@ -11,7 +11,7 @@ Additional concepts that OOP brings include:
 - Abstraction
 - Polymorphism
 
-Despite their similarities to structs, it is recommended that the `struct` kkeyword should be used for data-only structures and the `class` keyword for objects with both data and functions.
+Despite their similarities to structs, it is recommended that the `struct` keyword should be used for data-only structures and the `class` keyword for objects with both data and functions.
 
 ## Classes and class members
 
@@ -36,14 +36,14 @@ public:
 };
 ```
 
-By convention, class names should begin with an upper-case leter.
+By convention, class names should begin with an upper-case letter.
 
 ### Specifiers
 
 We note that there is the `public` keyword in our comparison example of a class vs a struct.
 
 Structs are public by default meaning its means members can be accessed directly by anyone - including code that exists outside the struct definition.
-Class members are private by default meaning they cannot be accessed by the public - they can only be accessed by other memebers of the class.
+Class members are private by default meaning they cannot be accessed by the public - they can only be accessed by other members of the class.
 The `public` keyword is an access specifier that makes class members public.
 
 The group of public members of a class are often referred to as a public interface.
@@ -54,14 +54,14 @@ We will cover the protected access specifier in inheritance.
 
 In general, member variables are usually made private and member functions made public unless there is good reason not to.
 
-It is also important to note that access control works on a per-class basis,not a per-object basis.
+It is also important to note that access control works on a per-class basis, not a per-object basis.
 This means when a function has access to the private members of a class, it can access the private members of **any** object of that class type that it can see.
 This is useful when we need to copy members from one object of a class to another of the same class.
 
 ### Member functions
 
 Functions defined inside a class (or struct) are called member functions or methods.
-These can be defined inside or ouside the class definition.
+These can be defined inside or outside the class definition.
 Members of a class can be accessed just like they are in structs - using the member selection operator `.`.
 
 ```cpp
@@ -117,8 +117,8 @@ We can implement encapsulation via access specifiers `private`.
 There are many benefits of encapsulation:
 - Encapsulated classes are easier to use and reduce program complexity as you only need to know how the member functions work, not how they are implemented.
 - Data is protected, preventing misuse.
-- Encapsulated classes are easier to change without program-wide problems occurring (e.g. renaming variables, changing implementation but methods still do the same thing).
-- Encapsulated classes are easier to debug as everyone has the same call to the function so it is easier to breakpoint where member variables are changed.
+- Encapsulated classes are easier to change without program-wide problems occurring (e.g. we may rename variables and change implementation, but methods still do the same thing).
+- Encapsulated classes are easier to debug as everyone has the same call to the function meaning it is easier to breakpoint where member variables are changed.
 
 ### Access functions
 
@@ -127,10 +127,22 @@ There are two types of access functions:
 - Getters/accessors: functions that return the value of a private member variable.
 - Setters/mutators: functions that set the value of a private member variable.
 
-Getters should provide "read-only" access to data so it is best practice to have them return by value or const reference.
+Getters should provide "read-only" access to data, so it is best practice to have them return by value or const reference.
 
 When making classes, consider the following:
 - If nobody outside your class needs to access a member, don't provide access functions for it.
-- If someone outside your class needs to access a member, think about whether you can expose a behaviour or action instead (e.g. rather than a setAlive(bool) setter, implement a kill() function instead)
+- If someone outside your class needs to access a member, think about whether you can expose a behaviour or action instead (e.g. rather than a `setAlive(bool)` setter, implement a `kill()` function instead)
 - If you can't, consider whether you can provide only a getter.
 
+## The rule of three and rule of zero
+
+The "rule of three" and "rule of zero" are well-known C++ principles for creating classes.
+
+The rule of three states that if a class requires a user-defined destructor, copy constructor, or copy assignment operator, then it probably requires all three.
+Not following this rule usually leads to malfunctioning code.
+
+The rule of zero states that classes that have custom destructors, copy/move constructors, or copy/move assignment operators should deal exclusively with ownership.
+Other classes should not have classes should not have the aforementioned features.
+
+The best way to avoid implementing these special functions is to use existing types already supporting copy semantics (i.e. not raw pointers).
+This way, compiler-generated defaults for these special functions will behave as expected.
