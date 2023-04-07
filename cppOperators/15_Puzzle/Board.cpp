@@ -9,12 +9,12 @@ Board::Board()
     for (int i{ 0 }; i < grid_size * grid_size; ++i)
     {
         int n = i + 1;
-        int col = i / grid_size;
-        int row = i % grid_size;
+        int y = i / grid_size;
+        int x = i % grid_size;
         if (n < 16)
-            boardState[col][row] = Tile{ n };
+            boardState[y][x] = Tile{ n };
         else
-            boardState[col][row] = Tile{ 0 };
+            boardState[y][x] = Tile{ 0 };
     }
 }
 
@@ -28,11 +28,11 @@ std::ostream& operator<<(std::ostream& out, const Board& b1)
 {
     b1.printEmptyLines(g_consoleLines);
 
-    for (int col{ 0 }; col < b1.grid_size; ++col)
+    for (int y{ 0 }; y < b1.grid_size; ++y)
     {
-        for (int row{ 0 }; row < b1.grid_size; ++row)
+        for (int x{ 0 }; x < b1.grid_size; ++x)
         {
-            out << b1.boardState[col][row];
+            out << b1.boardState[y][x];
         }
         out << '\n';
     }
@@ -41,11 +41,11 @@ std::ostream& operator<<(std::ostream& out, const Board& b1)
 
 bool operator==(const Board& b1, const Board& b2)
 {
-    for (int col{ 0 }; col < b1.grid_size; ++col)
+    for (int y{ 0 }; y < b1.grid_size; ++y)
     {
-        for (int row{ 0 }; row < b1.grid_size; ++row)
+        for (int x{ 0 }; x < b1.grid_size; ++x)
         {
-            if (b1.boardState[col][row] != b2.boardState[col][row])
+            if (b1.boardState[y][x] != b2.boardState[y][x])
                 return false;
         }
     }
@@ -54,12 +54,12 @@ bool operator==(const Board& b1, const Board& b2)
 
 Point Board::getEmptyTileLoc() const
 {
-    for (int col{ 0 }; col < grid_size; ++col)
+    for (int y{ 0 }; y < grid_size; ++y)
     {
-        for (int row{ 0 }; row < grid_size; ++row)
+        for (int x{ 0 }; x < grid_size; ++x)
         {
-            if (boardState[col][row].isEmpty())
-                return { row, col };
+            if (boardState[y][x].isEmpty())
+                return { x, y };
         }
     }
     
